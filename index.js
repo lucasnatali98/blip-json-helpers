@@ -1,7 +1,16 @@
 import fs from "fs";
 
 const args = process.argv.slice(2);
-const validArgs = ["event-tracking", "ending-flow", "tags"];
+const validArgs = [
+  "event-tracking",
+  "ending-flow",
+  "tags",
+  "mapping-flow",
+  "inactivity",
+  "contact-journey",
+  "blacklist",
+  "names",
+];
 
 args.forEach((arg) => {
   if (!validArgs.includes(arg)) {
