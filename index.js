@@ -11,13 +11,19 @@ args.forEach((arg) => {
   }
 });
 
+//Envolver em um try catch
 const configFile = fs.readFileSync("config.json", "utf8");
 const config = JSON.parse(configFile);
-
+console.log("config file: ", config);
 const validOperationArgumentsByOperation = {
-  "event-tracking": ["add", "remove"],
-  "ending-flow": ["add", "remove"],
-  tags: ["add", "remove"],
+  event_tracking: ["action", "category"],
+  ending_flow: ["add", "remove"],
+  tags: [],
+  mapping_flow: [],
+  inactivity: [],
+  contact_journey: [],
+  blacklist: [],
+  names: [],
 };
 
 const preprocessingErrors = Object.entries(config).map(([key, value]) => {
@@ -48,4 +54,8 @@ const preprocessingErrors = Object.entries(config).map(([key, value]) => {
 
 if (preprocessingErrors.some((error) => error.hasError)) {
   throw new Error(preprocessingErrors.map((error) => error.error).join("\n\n"));
+}
+
+for (const [key, value] of Object.entries(config)) {
+  console.log(key, value);
 }

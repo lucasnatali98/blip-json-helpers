@@ -1,1 +1,4 @@
-export function contactJourney(flow) {}
+export function contactJourney(flow) {
+  try {
+  } catch (error) {}
+}

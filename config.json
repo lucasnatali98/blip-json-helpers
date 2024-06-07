@@ -1,1 +1,60 @@
-{}
+{
+  "event_tracking": [
+    {
+      "action": "create",
+      "category": {
+        "name": "",
+        "value": ""
+      }
+    },
+
+    {
+      "action": "update",
+      "category": {
+        "name": "",
+        "newName": "",
+        "value": ""
+      }
+    },
+    {
+      "action": "delete",
+      "category": {
+        "name": ""
+      }
+    }
+  ],
+  "blacklist": {},
+  "ending_flow": {},
+  "contact_journey": {},
+  "exceptions": {},
+  "names": {
+    "action_names": {
+      "http": "",
+      "contact": "",
+      "event_tracking": "",
+      "script": ""
+    }
+  },
+  "mapping_flow": {
+    "output_path": ""
+  },
+  "tags": {},
+  "inactivity": {
+    "firstTime": {
+      "time": "",
+      "message": ""
+    },
+    "lastTime": {
+      "time": "",
+      "message": ""
+    }
+  },
+  "interactions": {
+    "tracking_data": {
+      "action": "",
+      "category": "",
+      "label": "",
+      "value": ""
+    }
+  }
+}
