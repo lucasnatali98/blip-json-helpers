@@ -3,8 +3,8 @@ import {
   addTrackingToBlock,
   createBlock,
   updateBlockInputProperty,
-} from "./block";
-export function inactivity(flow, inactivityInfo) {
+} from "@/shared/block";
+export function inactivity(flow: any, inactivityInfo: any) {
   try {
     const { firstMessage, lastMessage, firstDelay, lastDelay } = inactivityInfo;
     const resultFlow = flow;

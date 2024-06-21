@@ -1,4 +1,6 @@
-export function mappingFlow(flow) {
+import { Flow } from "@/shared/flow";
+
+export function mappingFlow(flow: Flow) {
   try {
     const flowMap = {};
     for (const [key, value] of Object.entries(flow)) {

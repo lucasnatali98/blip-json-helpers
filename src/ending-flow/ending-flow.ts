@@ -1,6 +1,12 @@
-import { arraysDeepEqual, generateUUID } from "./utils/util";
+import { Flow } from "@/shared/flow";
+import { arraysDeepEqual, generateUUID } from "@/utils/util";
 
-const endingFlowConditionOutput = (info) => {
+export type EndingFlowPayload = {
+  message: string;
+  condition: any;
+};
+
+const endingFlowConditionOutput = (info: any) => {
   const stateId = info.stateId;
 
   return {
@@ -15,7 +21,7 @@ const endingFlowConditionOutput = (info) => {
     ],
   };
 };
-export function endingFlow(flow, payload) {
+export function endingFlow(flow: Flow, payload: EndingFlowPayload) {
   try {
     const { endingBlockInfo, endingCondition } = payload;
     const endingBlockId = endingBlockInfo.stateId;

@@ -1,4 +1,19 @@
-export function blacklist(flow, blacklist, options) {
+import { Flow } from "@/shared/flow";
+
+export type Blacklist = {
+  identity: string;
+};
+export type BlacklistOptions = {
+  resource_name: string;
+  router_id: string;
+  router_key: string;
+};
+
+export function blacklist(
+  flow: Flow,
+  blacklist: Blacklist[],
+  options: BlacklistOptions
+) {
   try {
     const { resource_name, router_id, router_key } = options;
   } catch (error) {

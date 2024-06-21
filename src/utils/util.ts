@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 export function generateUUID() {
   return crypto.randomUUID();
 }
-export function deepEqual(obj1, obj2) {
+export function deepEqual(obj1: any, obj2: any) {
   if (obj1 === obj2) {
     return true;
   }
@@ -33,7 +33,7 @@ export function deepEqual(obj1, obj2) {
   return true;
 }
 
-export function arraysDeepEqual(arr1, arr2) {
+export function arraysDeepEqual(arr1: any, arr2: any) {
   if (arr1.length !== arr2.length) {
     return false;
   }

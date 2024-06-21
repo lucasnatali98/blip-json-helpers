@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "node:path";
+
 const DEFAULT_INPUT_DIR = "../input/";
-export function loadFile(path) {
+export function loadFile(path: any) {
   try {
     const file = fs.readFileSync(path, "utf8");
     return JSON.parse(file);

@@ -1,6 +1,7 @@
-import { generateUUID } from "./utils/util";
+import { generateUUID } from "@/utils/util";
 
-export function createBlock(flow, blockInfo) {
+export type Block = {};
+export function createBlock(flow: any, blockInfo: any) {
   try {
     const { title, xpos, ypos } = blockInfo;
     const uuid = generateUUID();
