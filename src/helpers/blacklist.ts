@@ -1,34 +1,28 @@
 import { Flow } from "@/shared/flow";
 
-export type Blacklist = {
-  identity: string;
-};
-export type BlacklistOptions = {
+export type BlacklistConfig = {
   resource_name: string;
   router_id: string;
   router_key: string;
 };
-
-export function blacklist(
-  flow: Flow,
-  blacklist: Blacklist[],
-  options: BlacklistOptions
-) {
-  try {
-    const { resource_name, router_id, router_key } = options;
-  } catch (error) {
-    console.error(error);
-    return error;
+export interface Blacklist {
+  create(flow: Flow, users: string[]): Flow;
+  remove(flow: Flow): Flow;
+  removeUsers(users: string[]): Flow;
+  addUsers(users: string[]): Flow;
+}
+export class BlacklistImpl implements Blacklist {
+  constructor(private readonly _config: BlacklistConfig) {}
+  create(flow: Flow, users: string[]): Flow {
+    throw new Error("Method not implemented.");
+  }
+  remove(flow: Flow): Flow {
+    throw new Error("Method not implemented.");
+  }
+  removeUsers(): Flow {
+    throw new Error("Method not implemented.");
+  }
+  addUsers(): Flow {
+    throw new Error("Method not implemented.");
   }
 }
-
-const createResource = (payload) => {
-  try {
-    const { resource_name, router_id, router_key, contract_id } = payload;
-    const url = ``;
-    fetch("");
-  } catch (error) {
-    console.error(error);
-    return error;
-  }
-};

@@ -1,4 +1,4 @@
-import { eventTracking } from "./event-tracking";
+import { eventTracking } from "../event-tracking/event-tracking";
 
 export const container = (flow: any, config: any) => {
   return {
