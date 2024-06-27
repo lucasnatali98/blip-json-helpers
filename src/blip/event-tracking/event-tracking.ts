@@ -1,4 +1,5 @@
-import { Flow } from "@/shared/flow";
+import { Flow } from "../flow/flow";
+
 export type EventTrackingPayload = {
   action: string;
   categoryName: string;

@@ -1,4 +1,4 @@
-import { Flow } from "@/shared/flow";
+import { Flow } from "../flow/flow";
 
 export function contactJourney(flow: Flow) {
   try {
