@@ -1,4 +1,4 @@
-import { Flow } from "@/shared/flow";
+import { Flow } from "@/blip/flow/flow";
 import { arraysDeepEqual, generateUUID } from "@/utils/util";
 
 export type EndingFlowPayload = {
@@ -21,53 +21,10 @@ const endingFlowConditionOutput = (info: any) => {
     ],
   };
 };
-export function endingFlow(flow: Flow, payload: EndingFlowPayload) {
-  try {
-    const { endingBlockInfo, endingCondition } = payload;
-    const endingBlockId = endingBlockInfo.stateId;
-    const blockToPassArray = ["welcome", "desk"];
-    const resultFlow = {};
-    for (const [key, value] of Object.entries(flow)) {
-      if (blockToPassArray.includes(key)) {
-        continue;
-      }
+export function endingFlow(flow: Flow, payload: EndingFlowPayload) {}
 
-      const contentActions = value.$contentActions ?? null;
-
-      if (contentActions === null) {
-        continue;
-      }
-
-      for (const contentAction of contentActions) {
-        if (!contentAction.input?.bypass) {
-          const endingFlowOutputCondition = endingFlowConditionOutput({
-            stateId: key,
-          });
-
-          const isEndingFlowOutputConditionAlreadyExists =
-            contentAction.$conditionOutputs.some(
-              (conditionOutput) =>
-                conditionOutput.stateId === endingBlockId ||
-                arraysDeepEqual(
-                  conditionOutput.conditions,
-                  endingFlowOutputCondition.conditions
-                )
-            );
-
-          if (!isEndingFlowOutputConditionAlreadyExists) {
-            contentAction.$conditionOutputs.splice(
-              0,
-              0,
-              endingFlowOutputCondition
-            );
-          }
-        }
-      }
-    }
-
-    resultFlow = { ...flow };
-    return resultFlow;
-  } catch (error) {
-    return error;
+export class EndingFlowUseCase {
+  execute(input: any): Flow {
+    return {} as Flow;
   }
 }

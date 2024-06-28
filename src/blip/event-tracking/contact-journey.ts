@@ -1,6 +1,7 @@
 import { Flow } from "../flow/flow";
 
-export function contactJourney(flow: Flow) {
-  try {
-  } catch (error) {}
+export class ContactJourneyUseCase {
+  execute(flow: Flow): Flow {
+    return {} as Flow;
+  }
 }

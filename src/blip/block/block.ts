@@ -62,7 +62,7 @@ export interface Position {
  */
 export interface Block {
   contentActions: ContentAction[];
-  conditionOutputs: ContentAction[];
+  conditionOutputs: ConditionOutput[];
   enteringCustomActions: EnteringCustomAction[];
   leavingCustomActions: LeavingCustomAction[];
   inputSuggestions: InputSuggestion[];
@@ -94,9 +94,15 @@ export class BlockImpl implements Block {
   invalidOutputs: boolean = false;
   invalidCustomActions: boolean = false;
 
-  constructor(block: Block) {}
+  constructor(block: Block) {
+    if (!this._validateBlock(block)) {
+      throw new Error("Invalid block");
+    }
+  }
 
-  private _validateBlock(block: Block) {}
+  private _validateBlock(block: Block): boolean {
+    return false;
+  }
 }
 
 /**
@@ -104,69 +110,27 @@ export class BlockImpl implements Block {
  *
  */
 export interface BlockService {
-  create(flow: Flow, blockInfo: any): Block;
+  create(blockInfo: Block): Block;
   addTextToBlock(block: Block, text: string): Block;
   addTrackingToBlock(block: Block, tracking: any): Block;
   updateBlockInputProperty(block: Block, property: string, value: any): Block;
 }
 
 export class BlockServiceImpl implements BlockService {
-  create(flow: Flow, blockInfo: any): Block {
-    return {} as Block;
-  }
+  constructor(private readonly _block: Block) {}
   addTextToBlock(block: Block, text: string): Block {
-    block.contentActions.splice(0, 0, {
-      action: {
-        $id: generateUUID(),
-        $typeOfContent: "",
-        type: "SendMessage",
-        settings: {
-          id: generateUUID(),
-          type: "text/plain",
-          content: text,
-          metadata: {},
-        },
-        $cardContent: {
-          document: {
-            id: generateUUID(),
-            type: "text/plain",
-            content: text,
-            metadata: {},
-          },
-          editable: true,
-          deletable: true,
-          position: "left",
-          editing: false,
-        },
-      },
-      $invalid: false,
-    });
-
-    return block;
+    throw new Error("Method not implemented.");
   }
   addTrackingToBlock(block: Block, tracking: any): Block {
-    block.enteringCustomActions.push({
-      id: generateUUID(),
-      typeOfContent: "",
-      type: "TrackEvent",
-      title: "",
-      invalid: false,
-      settings: {
-        extras: {},
-        category: tracking.category,
-        action: tracking.action,
-      },
-      condition: [],
-    });
-    return block;
+    throw new Error("Method not implemented.");
   }
-  updateBlockInputProperty(block: Block, property: string, value: any): Block {
-    block.contentActions.map((action) => {
-      if (action.input) {
-        action.input[property] = value;
-      }
-    });
-
-    return block;
+  updateBlockInputProperty(block: Block, _property: string, value: any): Block {
+    throw new Error("Method not implemented.");
+  }
+  create(blockInfo: Block): Block {
+    return {
+      ...this._block,
+      ...blockInfo,
+    } as Block;
   }
 }

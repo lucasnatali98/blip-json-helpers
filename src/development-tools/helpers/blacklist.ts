@@ -1,4 +1,4 @@
-import { Flow } from "@/shared/flow";
+import { Flow } from "@/blip/flow/flow";
 
 export type BlacklistConfig = {
   resource_name: string;
