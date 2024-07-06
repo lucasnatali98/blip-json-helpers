@@ -14,6 +14,7 @@ export interface ContactsDataAccess {
     updateContact(): Promise<BlipHttpResponseTemplate<BlipHttpResponseTemplateWithoutResource>>
 }
 export class ContactsDataAccessImpl implements ContactsDataAccess {
+    constructor(){}
     async getContacts(): Promise<BlipHttpResponseTemplate<BlipContactsResourceResponse>> {
         throw new Error("Method not implemented.");
     }
