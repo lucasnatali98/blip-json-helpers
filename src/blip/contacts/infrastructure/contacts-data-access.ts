@@ -1,31 +1,48 @@
-import { BlipHttpResponseTemplate, BlipHttpResponseTemplateWithoutResource } from "@/blip/response-builder";
+import {
+  BlipHttpResponseTemplate,
+  BlipHttpResponseTemplateBuilder,
+  BlipHttpResponseTemplateWithoutResource,
+} from "@/blip/response-builder";
 import { Contact } from "../contact";
+import { HttpClient } from "@/shared/http-client";
 
 export type BlipContactsResourceResponse = {
-    total: number
-    itemType: string,
-    items: Contact[]
-}
+  total: number;
+  itemType: string;
+  items: Contact[];
+};
 
+export type BlipHttpContactsResponse =
+  BlipHttpResponseTemplate<BlipContactsResourceResponse>;
+export type BlipHttpContactResponse = BlipHttpResponseTemplate<Contact>;
+export type BlipHttpContactResponseWithoutResource =
+  BlipHttpResponseTemplateWithoutResource;
 export interface ContactsDataAccess {
-    getContacts(): Promise<BlipHttpResponseTemplate<BlipContactsResourceResponse>>
-    getContact(): Promise<BlipHttpResponseTemplate<Contact>>
-    addContact(): Promise<BlipHttpResponseTemplate<BlipHttpResponseTemplateWithoutResource>>
-    updateContact(): Promise<BlipHttpResponseTemplate<BlipHttpResponseTemplateWithoutResource>>
+  getContacts(): Promise<BlipHttpContactsResponse>;
+  getContact(): Promise<BlipHttpContactResponse>;
+  addContact(): Promise<BlipHttpContactResponseWithoutResource>;
+  updateContact(): Promise<BlipHttpContactResponseWithoutResource>;
 }
 export class ContactsDataAccessImpl implements ContactsDataAccess {
-    constructor(){}
-    async getContacts(): Promise<BlipHttpResponseTemplate<BlipContactsResourceResponse>> {
-        throw new Error("Method not implemented.");
-    }
-    async getContact(): Promise<BlipHttpResponseTemplate<Contact>> {
-        throw new Error("Method not implemented.");
-    }
-    async addContact(): Promise<BlipHttpResponseTemplate<BlipHttpResponseTemplateWithoutResource>> {
-        throw new Error("Method not implemented.");
-    }
-    async updateContact(): Promise<BlipHttpResponseTemplate<BlipHttpResponseTemplateWithoutResource>> {
-        throw new Error("Method not implemented.");
-    }
-  
+  constructor(private readonly _httpClient: HttpClient) {}
+  async getContacts(): Promise<BlipHttpContactsResponse> {
+    try {
+      return new BlipHttpResponseTemplateBuilder<BlipContactsResourceResponse>()
+        .create()
+
+        .build();
+    } catch (error) {}
+  }
+  async getContact(): Promise<BlipHttpContactResponse> {
+    try {
+    } catch (error) {}
+  }
+  async addContact(): Promise<BlipHttpContactResponseWithoutResource> {
+    try {
+    } catch (error) {}
+  }
+  async updateContact(): Promise<BlipHttpContactResponseWithoutResource> {
+    try {
+    } catch (error) {}
+  }
 }
