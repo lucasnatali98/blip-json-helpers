@@ -2,9 +2,10 @@ import {
   BlipHttpResponseTemplate,
   BlipHttpResponseTemplateBuilder,
   BlipHttpResponseTemplateWithoutResource,
-} from "@/blip/response-builder";
+} from "@/blip/blip-response-builder";
 import { Contact } from "../contact";
 import { HttpClient } from "@/shared/http-client";
+import logger from "@/shared/logger";
 
 export type BlipContactsResourceResponse = {
   total: number;
@@ -29,20 +30,27 @@ export class ContactsDataAccessImpl implements ContactsDataAccess {
     try {
       return new BlipHttpResponseTemplateBuilder<BlipContactsResourceResponse>()
         .create()
-
         .build();
-    } catch (error) {}
+    } catch (error: any) {
+      logger.error(error?.stack);
+    }
   }
   async getContact(): Promise<BlipHttpContactResponse> {
     try {
-    } catch (error) {}
+    } catch (error: any) {
+      logger.error(error?.stack);
+    }
   }
   async addContact(): Promise<BlipHttpContactResponseWithoutResource> {
     try {
-    } catch (error) {}
+    } catch (error: any) {
+      logger.error(error?.stack);
+    }
   }
   async updateContact(): Promise<BlipHttpContactResponseWithoutResource> {
     try {
-    } catch (error) {}
+    } catch (error: any) {
+      logger.error(error?.stack);
+    }
   }
 }
