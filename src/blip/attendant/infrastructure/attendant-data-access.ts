@@ -14,7 +14,7 @@ import {
   GetAgentsReportResponse,
 } from "./data/blip-attendant-dto";
 
-export interface AttendantDataAccess {
+export interface BlipAttendantDataAccess {
   addAgent(): Promise<BlipHttpResponseTemplate<AddAgentResponse>>;
   getAllBotAgents(
     dto: GetAllBotAgentsDto
@@ -30,7 +30,7 @@ export interface AttendantDataAccess {
   ): Promise<BlipHttpResponseTemplate<GetAgentsReportResponse>>;
 }
 
-export class AttendantDataAccessImpl implements AttendantDataAccess {
+export class BlipAttendantDataAccessImpl implements BlipAttendantDataAccess {
   async getAllBotAgents(
     dto: GetAllBotAgentsDto
   ): Promise<BlipHttpResponseTemplate<AgentInfoDetail>> {
@@ -40,36 +40,45 @@ export class AttendantDataAccessImpl implements AttendantDataAccess {
         .build();
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<AgentInfoDetail>;
     }
   }
   async deleteAgent(
     agentId: string
   ): Promise<BlipHttpResponseTemplate<DeleteAgentResponse>> {
     try {
+      return {} as BlipHttpResponseTemplate<DeleteAgentResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<DeleteAgentResponse>;
     }
   }
   async getAgentsProductivity(
     dto: SearchRangeDate
   ): Promise<BlipHttpResponseTemplate<GetAgentsProductivityResponse>> {
     try {
+      return {} as BlipHttpResponseTemplate<GetAgentsProductivityResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<GetAgentsProductivityResponse>;
     }
   }
   async getReportAboutAgents(
     dto: SearchRangeDate
   ): Promise<BlipHttpResponseTemplate<GetAgentsReportResponse>> {
     try {
+      return {} as BlipHttpResponseTemplate<GetAgentsReportResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<GetAgentsReportResponse>;
     }
   }
   async addAgent(): Promise<BlipHttpResponseTemplate<AddAgentResponse>> {
     try {
+      return {} as BlipHttpResponseTemplate<AddAgentResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<AddAgentResponse>;
     }
   }
 }

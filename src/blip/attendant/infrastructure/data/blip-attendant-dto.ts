@@ -60,3 +60,9 @@ export type GetAgentsProductivityResponse = {
   itemType: string;
   items: AgentsProductivity[];
 };
+
+export type GetAllBotAgentsRequestDto = {
+  $take: number;
+  $skip: number;
+  $ascending: boolean;
+};
