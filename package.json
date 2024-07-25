@@ -13,7 +13,7 @@
     "lint:fix": "npx eslint --fix \"src/**/*.{ts,js}\"",
     "lint:test": "eslint --ext .ts,.js test/main/",
     "dev": "tsx src/server.ts",
-    "start": "node dist/index.js",
+    "start": "node --report-uncaught-exception --report-on-fatalerror dist/index.js",
     "build": "tsup src --tsconfig tsconfig.json --out-dir dist --legacy-output",
     "clean": "rimraf dist && rimraf build && rimraf coverage"
   },

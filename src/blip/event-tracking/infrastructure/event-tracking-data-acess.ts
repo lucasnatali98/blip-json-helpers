@@ -35,54 +35,138 @@ export interface EventTrackingDataAccess {
   ): Promise<BlipHttpResponseTemplateWithoutResource>;
 }
 export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
-  constructor(private readonly _httpClient: HttpClient) {}
+  private readonly _baseUrl;
+  private readonly _authorizationKey;
+  constructor(private readonly _httpClient: HttpClient) {
+    this._baseUrl = process.env.BLIP_API_URL;
+    this._authorizationKey = process.env.ROUTER_KEY;
+  }
   async createEvent(
     dto: CreateEventRequestDto
   ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
+      const url = `${this._baseUrl}/...`;
+      const payload = { ...dto };
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._authorizationKey,
+      };
+      const response =
+        await this._httpClient.post<BlipHttpResponseTemplateWithoutResource>(
+          url,
+          payload,
+          headers
+        );
+
+      const data = response as BlipHttpResponseTemplateWithoutResource;
+
+      return data;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplateWithoutResource;
     }
   }
   async getEventDetails(
     dto: GetEventDetailsRequestDto
   ): Promise<GetEventDetailsResponse> {
     try {
+      const url = `${this._baseUrl}/...`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._authorizationKey,
+      };
+      const response = await this._httpClient.post<GetEventDetailsResponse>(
+        url,
+        dto,
+        headers
+      );
+
+      return response as GetEventDetailsResponse;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as GetEventDetailsResponse;
     }
   }
   async getEventCategories(): Promise<
     BlipHttpResponseTemplate<GetEventCategoriesResponse>
   > {
     try {
-      return {};
+      const url = `${this._baseUrl}/...`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._authorizationKey,
+      };
+      const response = await this._httpClient.get<
+        BlipHttpResponseTemplate<GetEventCategoriesResponse>
+      >(url, headers);
+
+      return response as BlipHttpResponseTemplate<GetEventCategoriesResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+
+      return {} as BlipHttpResponseTemplate<GetEventCategoriesResponse>;
     }
   }
   async getEventCounters(
     uri: string
   ): Promise<BlipHttpResponseTemplate<GetEventCountersResponse>> {
     try {
+      const url = `${this._baseUrl}/...`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._authorizationKey,
+      };
+      const response = await this._httpClient.get<
+        BlipHttpResponseTemplate<GetEventCountersResponse>
+      >(url, headers);
+
+      return response as BlipHttpResponseTemplate<GetEventCountersResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<GetEventCountersResponse>;
     }
   }
   async createEventWithContact(
     dto: CreateEventWithContactRequestDto
   ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
+      const url = "";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._authorizationKey,
+      };
+
+      const response =
+        await this._httpClient.post<BlipHttpResponseTemplateWithoutResource>(
+          url,
+          dto,
+          headers
+        );
+
+      return response as BlipHttpResponseTemplate<GetEventCountersResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplate<GetEventCountersResponse>;
     }
   }
   async deleteEventCategory(
     uri: string
   ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
+      const url = `${this._baseUrl}/...`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._authorizationKey,
+      };
+      const response =
+        await this._httpClient.delete<BlipHttpResponseTemplateWithoutResource>(
+          url,
+          headers
+        );
+      return response as BlipHttpResponseTemplateWithoutResource;
     } catch (error: any) {
       logger.error(error?.stack);
+      return {} as BlipHttpResponseTemplateWithoutResource;
     }
   }
 }
