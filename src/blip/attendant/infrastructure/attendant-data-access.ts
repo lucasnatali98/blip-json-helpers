@@ -8,20 +8,23 @@ import {
   AddAgentResponse,
   GetAllBotAgentsDto,
   AgentInfoDetail,
-  DeleteAgentResponse,
   SearchRangeDate,
   GetAgentsProductivityResponse,
   GetAgentsReportResponse,
 } from "./data/blip-attendant-dto";
+import { HttpClient } from "@/shared/http-client";
+import { config } from "@/shared/config";
 
 export interface BlipAttendantDataAccess {
-  addAgent(): Promise<BlipHttpResponseTemplate<AddAgentResponse>>;
+  addAgent(
+    dto: BlipHttpResponseTemplate<{ identity: string; teams: string[] }>
+  ): Promise<BlipHttpResponseTemplate<AddAgentResponse>>;
   getAllBotAgents(
     dto: GetAllBotAgentsDto
   ): Promise<BlipHttpResponseTemplate<AgentInfoDetail>>;
   deleteAgent(
     agentId: string
-  ): Promise<BlipHttpResponseTemplate<DeleteAgentResponse>>;
+  ): Promise<BlipHttpResponseTemplateWithoutResource>;
   getAgentsProductivity(
     dto: SearchRangeDate
   ): Promise<BlipHttpResponseTemplate<GetAgentsProductivityResponse>>;
@@ -31,54 +34,142 @@ export interface BlipAttendantDataAccess {
 }
 
 export class BlipAttendantDataAccessImpl implements BlipAttendantDataAccess {
+  private readonly _contract_id: string;
+  private readonly _baseEndpoint: string;
+  private readonly _routerKey: string;
+  constructor(private readonly _httpClient: HttpClient) {
+    this._contract_id = config.contract_id ?? "";
+    this._routerKey = config.router_key ?? "";
+    this._baseEndpoint = `${this._contract_id}/commands`;
+  }
   async getAllBotAgents(
     dto: GetAllBotAgentsDto
   ): Promise<BlipHttpResponseTemplate<AgentInfoDetail>> {
     try {
+      const url = `${this._baseEndpoint}`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._routerKey,
+      };
+
+      const data = await this._httpClient.post<AgentInfoDetail>(
+        url,
+        dto,
+        headers
+      );
+
+      logger.info("getAllBotAgents Axios Response: ", { ...data });
+
       return new BlipHttpResponseTemplateBuilder<AgentInfoDetail>()
-        .create()
+        .create(data)
         .build();
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<AgentInfoDetail>;
+      return new BlipHttpResponseTemplateBuilder<AgentInfoDetail>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async deleteAgent(
     agentId: string
-  ): Promise<BlipHttpResponseTemplate<DeleteAgentResponse>> {
+  ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
-      return {} as BlipHttpResponseTemplate<DeleteAgentResponse>;
+      const url = `${this._baseEndpoint}/`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._routerKey,
+      };
+
+      const data =
+        await this._httpClient.post<BlipHttpResponseTemplateWithoutResource>(
+          url,
+          agentId,
+          headers
+        );
+
+      logger.info("deleteAgent Axios Response: ", { ...data });
+
+      return data as BlipHttpResponseTemplate<BlipHttpResponseTemplateWithoutResource>;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<DeleteAgentResponse>;
+      return new BlipHttpResponseTemplateBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async getAgentsProductivity(
     dto: SearchRangeDate
   ): Promise<BlipHttpResponseTemplate<GetAgentsProductivityResponse>> {
     try {
-      return {} as BlipHttpResponseTemplate<GetAgentsProductivityResponse>;
+      const url = `${this._baseEndpoint}/`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._routerKey,
+      };
+
+      const data = await this._httpClient.post<
+        BlipHttpResponseTemplate<GetAgentsProductivityResponse>
+      >(url, headers, dto);
+
+      logger.info("getAgentsProductivity Axios Response: ", { ...data });
+
+      return data as BlipHttpResponseTemplate<GetAgentsProductivityResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<GetAgentsProductivityResponse>;
+      return new BlipHttpResponseTemplateBuilder<GetAgentsProductivityResponse>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async getReportAboutAgents(
     dto: SearchRangeDate
   ): Promise<BlipHttpResponseTemplate<GetAgentsReportResponse>> {
     try {
-      return {} as BlipHttpResponseTemplate<GetAgentsReportResponse>;
+      const url = `${this._baseEndpoint}/`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._routerKey,
+      };
+
+      const data = await this._httpClient.post<
+        BlipHttpResponseTemplate<GetAgentsReportResponse>
+      >(url, headers);
+
+      logger.info("getReportAboutAgents Axios Response: ", { ...data });
+      return data as BlipHttpResponseTemplate<GetAgentsReportResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<GetAgentsReportResponse>;
+      return new BlipHttpResponseTemplateBuilder<GetAgentsReportResponse>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
-  async addAgent(): Promise<BlipHttpResponseTemplate<AddAgentResponse>> {
+  async addAgent(
+    dto: BlipHttpResponseTemplate<{ identity: string; teams: string[] }>
+  ): Promise<BlipHttpResponseTemplate<AddAgentResponse>> {
     try {
-      return {} as BlipHttpResponseTemplate<AddAgentResponse>;
+      const url = `${this._baseEndpoint}/`;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: this._routerKey,
+      };
+
+      const data = await this._httpClient.post<
+        BlipHttpResponseTemplate<AddAgentResponse>
+      >(url, headers, dto);
+
+      logger.info("addAgent Axios Response: ", { ...data });
+      return data as BlipHttpResponseTemplate<AddAgentResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<AddAgentResponse>;
+      return new BlipHttpResponseTemplateBuilder<AddAgentResponse>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
 }

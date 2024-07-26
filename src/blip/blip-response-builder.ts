@@ -43,6 +43,37 @@ export class BlipHttpResponseTemplateBuilder<T> {
     return this;
   }
 
+  withType(type: string): BlipHttpResponseTemplateBuilder<T> {
+    this._instance = {
+      ...this._instance,
+      type,
+    } as BlipHttpResponseTemplate<T>;
+    return this;
+  }
+
+  withId(id: string): BlipHttpResponseTemplateBuilder<T> {
+    this._instance = {
+      ...this._instance,
+      id,
+    } as BlipHttpResponseTemplate<T>;
+    return this;
+  }
+
+  withResource(resource: T): BlipHttpResponseTemplateBuilder<T> {
+    this._instance = {
+      ...this._instance,
+      resource,
+    } as BlipHttpResponseTemplate<T>;
+    return this;
+  }
+  withSuccess(isSuccess: boolean): BlipHttpResponseTemplateBuilder<T> {
+    this._instance = {
+      ...this._instance,
+      status: isSuccess ? "success" : "failure",
+    } as BlipHttpResponseTemplate<T>;
+
+    return this;
+  }
   build(): BlipHttpResponseTemplate<T> {
     if (this._instance) {
       return this._instance;
