@@ -1,5 +1,5 @@
 import { HttpDataResponse } from "@/shared/http-data-response";
-import { BlipHttpContactResponse } from "../infrastructure/contacts-data-access";
+import { BlipContactDataAccess } from "../infrastructure/contacts-data-access";
 import {
   BlipHttpResponseTemplate,
   BlipHttpResponseTemplateWithoutResource,
@@ -7,9 +7,12 @@ import {
 import { Contact } from "../contact";
 import { HttpDataResponseBuilder } from "@/shared/http-data-response-builder";
 import { InternalError } from "@/shared/errors";
+import { BlipContactsRequestDto } from "../infrastructure/data/blip-contact-dto";
 
 export interface BlipContactControler {
-  getContacts(): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact[]>>>;
+  getContacts(
+    dto: BlipContactsRequestDto
+  ): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact[]>>>;
   add(
     contact: Contact
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>>;
@@ -21,10 +24,23 @@ export interface BlipContactControler {
   ): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact>>>;
 }
 export class BlipContactControllerImpl implements BlipContactControler {
-  async getContacts(): Promise<
-    HttpDataResponse<BlipHttpResponseTemplate<Contact[]>>
-  > {
+  constructor(private readonly _blipContactDataAccess: BlipContactDataAccess) {}
+  async getContacts(
+    dto: BlipContactsRequestDto
+  ): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact[]>>> {
     try {
+      const contacts = await this._blipContactDataAccess.getContacts(dto);
+
+      if (contacts.status !== "success") {
+        return new HttpDataResponseBuilder<
+          BlipHttpResponseTemplate<Contact[]>
+        >()
+          .create()
+          .withInfoErrorMessage([
+            { message: "Houve um erro durante a extração" },
+          ])
+          .build();
+      }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact[]>>()
         .create()
         .withOkMessage({} as BlipHttpResponseTemplate<Contact[]>)
@@ -37,9 +53,19 @@ export class BlipContactControllerImpl implements BlipContactControler {
     }
   }
   async add(
-    contact: Contact
+    contactDto: Contact
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>> {
     try {
+      const contact = await this._blipContactDataAccess.addContact(contactDto);
+
+      if (contact.status !== "success") {
+        return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
+          .create()
+          .withInfoErrorMessage([
+            { message: "Houve um erro durante a extração" },
+          ])
+          .build();
+      }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
         .create()
         .withOkMessage({} as BlipHttpResponseTemplateWithoutResource)
@@ -52,9 +78,20 @@ export class BlipContactControllerImpl implements BlipContactControler {
     }
   }
   async update(
-    contact: Contact
+    contactDto: Contact
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>> {
     try {
+      const contact =
+        await this._blipContactDataAccess.updateContact(contactDto);
+
+      if (contact.status !== "success") {
+        return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
+          .create()
+          .withInfoErrorMessage([
+            { message: "Houve um erro durante a extração" },
+          ])
+          .build();
+      }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
         .create()
         .withOkMessage({} as BlipHttpResponseTemplateWithoutResource)
@@ -70,6 +107,18 @@ export class BlipContactControllerImpl implements BlipContactControler {
     identity: string
   ): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact>>> {
     try {
+      const contact = await this._blipContactDataAccess.getContact({
+        identity,
+      });
+
+      if (contact.status !== "success") {
+        return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact>>()
+          .create()
+          .withInfoErrorMessage([
+            { message: "Houve um erro durante a extração" },
+          ])
+          .build();
+      }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact>>()
         .create()
         .withOkMessage({} as BlipHttpResponseTemplate<Contact>)

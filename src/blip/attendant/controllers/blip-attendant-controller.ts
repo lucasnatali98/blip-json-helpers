@@ -14,9 +14,9 @@ import { HttpDataResponseBuilder } from "@/shared/http-data-response-builder";
 import { BlipAttendantDataAccess } from "../infrastructure/attendant-data-access";
 
 export interface BlipAttendantController {
-  addAgent(): Promise<
-    HttpDataResponse<BlipHttpResponseTemplate<AddAgentResponse>>
-  >;
+  addAgent(
+    dto: BlipHttpResponseTemplate<{ identity: string; teams: string[] }>
+  ): Promise<HttpDataResponse<BlipHttpResponseTemplate<AddAgentResponse>>>;
   getAllBotAgents(
     dto: GetAllBotAgentsRequestDto
   ): Promise<HttpDataResponse<BlipHttpResponseTemplate<AgentInfoDetail>>>;
@@ -182,11 +182,11 @@ export class BlipAttendantControllerImpl implements BlipAttendantController {
         .build();
     }
   }
-  async addAgent(): Promise<
-    HttpDataResponse<BlipHttpResponseTemplate<AddAgentResponse>>
-  > {
+  async addAgent(
+    dto: BlipHttpResponseTemplate<{ identity: string; teams: string[] }>
+  ): Promise<HttpDataResponse<BlipHttpResponseTemplate<AddAgentResponse>>> {
     try {
-      const response = await this._blipAttendantDataAccess.addAgent();
+      const response = await this._blipAttendantDataAccess.addAgent(dto);
 
       if (response.status !== "success") {
         return new HttpDataResponseBuilder<
