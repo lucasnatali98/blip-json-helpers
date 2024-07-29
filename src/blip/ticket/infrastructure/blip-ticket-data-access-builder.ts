@@ -13,8 +13,8 @@ export class BlipTicketDataAccessBuilder {
 
   create(): BlipTicketDataAccessBuilder {
     const httpClient = HttpClientProvider.getHttpClient();
-
     this._instance = new BlipTicketDataAccessImpl(httpClient);
+    return this;
   }
   build(): BlipTicketDataAccess {
     if (this._instance) return this._instance;
