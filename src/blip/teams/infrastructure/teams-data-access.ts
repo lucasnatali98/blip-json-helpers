@@ -40,16 +40,14 @@ export class BlipTeamsDataAccessImpl implements BlipTeamsDataAccess {
         Authorization: `${this._routerKey}`,
       };
 
-      const response =
-        await this._httpClient.post<BlipGetAllTeamsResponseResourceDto>(
-          url,
-          {},
-          { headers }
-        );
+      const response = await this._httpClient.post<
+        BlipHttpResponseTemplate<BlipGetAllTeamsResponseResourceDto>
+      >(url, {}, { headers });
 
       return new BlipHttpResponseTemplateBuilder<BlipGetAllTeamsResponseResourceDto>()
         .create()
         .withSuccess(true)
+        .withResource(response.resource)
         .build();
     } catch (error: any) {
       logger.error(error.stack);
