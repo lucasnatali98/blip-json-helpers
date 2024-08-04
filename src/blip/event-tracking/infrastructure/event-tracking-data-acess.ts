@@ -1,5 +1,6 @@
 import {
   BlipHttpResponseTemplate,
+  BlipHttpResponseTemplateBuilder,
   BlipHttpResponseTemplateWithoutResource,
 } from "@/blip/blip-response-builder";
 import { HttpClient } from "@/shared/http-client";
@@ -7,6 +8,7 @@ import {
   BlipCreateEventCategoryResource,
   CreateEventRequestDto,
   CreateEventWithContactRequestDto,
+  EventDetailResponse,
   GetEventCategoriesResponse,
   GetEventCountersResponse,
   GetEventDetailsRequestDto,
@@ -45,7 +47,7 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
     dto: CreateEventRequestDto
   ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
-      const url = `${this._baseUrl}/...`;
+      const url = `${this._baseUrl}/`;
       const payload = { ...dto };
       const headers = {
         "Content-Type": "application/json",
@@ -63,14 +65,19 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
       return data;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplateWithoutResource;
+      const objResponseError =
+        new BlipHttpResponseTemplateBuilder<BlipHttpResponseTemplateWithoutResource>()
+          .create()
+          .build();
+      const { resource, ...errResponse } = objResponseError;
+      return errResponse;
     }
   }
   async getEventDetails(
     dto: GetEventDetailsRequestDto
   ): Promise<GetEventDetailsResponse> {
     try {
-      const url = `${this._baseUrl}/...`;
+      const url = `${this._baseUrl}/`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: this._authorizationKey,
@@ -84,14 +91,18 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
       return response as GetEventDetailsResponse;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as GetEventDetailsResponse;
+
+      return new BlipHttpResponseTemplateBuilder<EventDetailResponse>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async getEventCategories(): Promise<
     BlipHttpResponseTemplate<GetEventCategoriesResponse>
   > {
     try {
-      const url = `${this._baseUrl}/...`;
+      const url = `${this._baseUrl}/`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: this._authorizationKey,
@@ -104,14 +115,17 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
     } catch (error: any) {
       logger.error(error?.stack);
 
-      return {} as BlipHttpResponseTemplate<GetEventCategoriesResponse>;
+      return new BlipHttpResponseTemplateBuilder<GetEventCategoriesResponse>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async getEventCounters(
     uri: string
   ): Promise<BlipHttpResponseTemplate<GetEventCountersResponse>> {
     try {
-      const url = `${this._baseUrl}/...`;
+      const url = `${this._baseUrl}/`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: this._authorizationKey,
@@ -123,14 +137,17 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
       return response as BlipHttpResponseTemplate<GetEventCountersResponse>;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<GetEventCountersResponse>;
+      return new BlipHttpResponseTemplateBuilder<GetEventCountersResponse>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async createEventWithContact(
     dto: CreateEventWithContactRequestDto
   ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
-      const url = "";
+      const url = `${this._baseUrl}/`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: this._authorizationKey,
@@ -143,17 +160,20 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
           headers
         );
 
-      return response as BlipHttpResponseTemplate<GetEventCountersResponse>;
+      return response as BlipHttpResponseTemplateWithoutResource;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplate<GetEventCountersResponse>;
+      return new BlipHttpResponseTemplateBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
   async deleteEventCategory(
     uri: string
   ): Promise<BlipHttpResponseTemplateWithoutResource> {
     try {
-      const url = `${this._baseUrl}/...`;
+      const url = `${this._baseUrl}/`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: this._authorizationKey,
@@ -166,7 +186,10 @@ export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
       return response as BlipHttpResponseTemplateWithoutResource;
     } catch (error: any) {
       logger.error(error?.stack);
-      return {} as BlipHttpResponseTemplateWithoutResource;
+      return new BlipHttpResponseTemplateBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
+        .withSuccess(false)
+        .build();
     }
   }
 }

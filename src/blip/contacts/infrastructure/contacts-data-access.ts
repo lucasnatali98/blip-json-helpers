@@ -14,6 +14,7 @@ import {
   BlipContactRequestDto,
 } from "./data/blip-contact-dto";
 import { config } from "@/shared/config";
+import { generateUUID } from "@/utils/util";
 
 export interface BlipContactDataAccess {
   getContacts(
@@ -41,12 +42,14 @@ export class BlipContactDataAccessImpl implements BlipContactDataAccess {
         "Content-Type": "application/json",
         Authorization: `${this._authKey}`,
       };
-      const response = await this._httpClient.post(url, { headers });
+      const response = await this._httpClient.post<
+        BlipHttpResponseTemplate<BlipContactsResourceResponse>
+      >(url, { headers });
 
       return new BlipHttpResponseTemplateBuilder<BlipContactsResourceResponse>()
         .create()
         .withSuccess(true)
-        .withResource({} as BlipContactsResourceResponse)
+        .withResource(response.resource as BlipContactsResourceResponse)
         .build();
     } catch (error: any) {
       logger.error(error?.stack);
@@ -65,10 +68,22 @@ export class BlipContactDataAccessImpl implements BlipContactDataAccess {
         "Content-Type": "application/json",
         Authorization: `${this._authKey}`,
       };
+      const body = {
+        id: generateUUID(),
+        to: "postmaster@crm.msging.net",
+        method: "get",
+        uri: `/contacts/${dto.identity}@messenger.gw.msging.net`,
+      };
+      logger.info("getContact: ", body);
+      const response = await this._httpClient.post<
+        BlipHttpResponseTemplate<Contact>
+      >(url, body, {
+        headers,
+      });
       return new BlipHttpResponseTemplateBuilder<Contact>()
         .create()
         .withSuccess(true)
-        .withResource({} as Contact)
+        .withResource(response.resource as Contact)
         .build();
     } catch (error: any) {
       logger.error(error?.stack);

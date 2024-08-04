@@ -7,12 +7,17 @@ import {
 import { Contact } from "../contact";
 import { HttpDataResponseBuilder } from "@/shared/http-data-response-builder";
 import { InternalError } from "@/shared/errors";
-import { BlipContactsRequestDto } from "../infrastructure/data/blip-contact-dto";
+import {
+  BlipContactsRequestDto,
+  BlipContactsResourceResponse,
+} from "../infrastructure/data/blip-contact-dto";
 
 export interface BlipContactControler {
   getContacts(
     dto: BlipContactsRequestDto
-  ): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact[]>>>;
+  ): Promise<
+    HttpDataResponse<BlipHttpResponseTemplate<BlipContactsResourceResponse>>
+  >;
   add(
     contact: Contact
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>>;
@@ -27,13 +32,15 @@ export class BlipContactControllerImpl implements BlipContactControler {
   constructor(private readonly _blipContactDataAccess: BlipContactDataAccess) {}
   async getContacts(
     dto: BlipContactsRequestDto
-  ): Promise<HttpDataResponse<BlipHttpResponseTemplate<Contact[]>>> {
+  ): Promise<
+    HttpDataResponse<BlipHttpResponseTemplate<BlipContactsResourceResponse>>
+  > {
     try {
       const contacts = await this._blipContactDataAccess.getContacts(dto);
 
       if (contacts.status !== "success") {
         return new HttpDataResponseBuilder<
-          BlipHttpResponseTemplate<Contact[]>
+          BlipHttpResponseTemplate<BlipContactsResourceResponse>
         >()
           .create()
           .withInfoErrorMessage([
@@ -41,12 +48,16 @@ export class BlipContactControllerImpl implements BlipContactControler {
           ])
           .build();
       }
-      return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact[]>>()
+      return new HttpDataResponseBuilder<
+        BlipHttpResponseTemplate<BlipContactsResourceResponse>
+      >()
         .create()
-        .withOkMessage({} as BlipHttpResponseTemplate<Contact[]>)
+        .withOkMessage(contacts)
         .build();
     } catch (error: any) {
-      return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact[]>>()
+      return new HttpDataResponseBuilder<
+        BlipHttpResponseTemplate<BlipContactsResourceResponse>
+      >()
         .create()
         .withInternalErrorMessage([InternalError])
         .build();
@@ -68,7 +79,7 @@ export class BlipContactControllerImpl implements BlipContactControler {
       }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
         .create()
-        .withOkMessage({} as BlipHttpResponseTemplateWithoutResource)
+        .withOkMessage(contact as BlipHttpResponseTemplateWithoutResource)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
@@ -94,7 +105,7 @@ export class BlipContactControllerImpl implements BlipContactControler {
       }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
         .create()
-        .withOkMessage({} as BlipHttpResponseTemplateWithoutResource)
+        .withOkMessage(contact as BlipHttpResponseTemplateWithoutResource)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
@@ -121,7 +132,7 @@ export class BlipContactControllerImpl implements BlipContactControler {
       }
       return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact>>()
         .create()
-        .withOkMessage({} as BlipHttpResponseTemplate<Contact>)
+        .withOkMessage(contact as BlipHttpResponseTemplate<Contact>)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplate<Contact>>()

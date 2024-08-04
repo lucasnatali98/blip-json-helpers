@@ -22,7 +22,7 @@ export type CreateEventWithContactRequestDto = Omit<
   "type"
 >;
 
-type EventDetailResponse = {
+export type EventDetailResponse = {
   category: string;
   action: string;
   storageDate: string;

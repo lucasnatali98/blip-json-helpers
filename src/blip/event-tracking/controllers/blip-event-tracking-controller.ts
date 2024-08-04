@@ -65,12 +65,14 @@ export class BlipEventTrackingControllerImpl
       return new HttpDataResponseBuilder<
         BlipHttpResponseTemplate<GetEventDetailsResponse>
       >()
+        .create()
         .withOkMessage({} as BlipHttpResponseTemplate<GetEventDetailsResponse>)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<
         BlipHttpResponseTemplate<GetEventDetailsResponse>
       >()
+        .create()
         .withInternalErrorMessage([InternalError])
         .build();
     }
@@ -82,6 +84,7 @@ export class BlipEventTrackingControllerImpl
       return new HttpDataResponseBuilder<
         BlipHttpResponseTemplate<GetEventCategoriesResponse>
       >()
+        .create()
         .withOkMessage(
           {} as BlipHttpResponseTemplate<GetEventCategoriesResponse>
         )
@@ -90,6 +93,7 @@ export class BlipEventTrackingControllerImpl
       return new HttpDataResponseBuilder<
         BlipHttpResponseTemplate<GetEventCategoriesResponse>
       >()
+        .create()
         .withInternalErrorMessage([InternalError])
         .build();
     }
@@ -103,12 +107,14 @@ export class BlipEventTrackingControllerImpl
       return new HttpDataResponseBuilder<
         BlipHttpResponseTemplate<GetEventCountersResponse>
       >()
+        .create()
         .withOkMessage({} as BlipHttpResponseTemplate<GetEventCountersResponse>)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<
         BlipHttpResponseTemplate<GetEventCountersResponse>
       >()
+        .create()
         .withInternalErrorMessage([InternalError])
         .build();
     }
@@ -118,10 +124,12 @@ export class BlipEventTrackingControllerImpl
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>> {
     try {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
         .withOkMessage({} as BlipHttpResponseTemplateWithoutResource)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
         .withInternalErrorMessage([InternalError])
         .build();
     }
@@ -131,10 +139,12 @@ export class BlipEventTrackingControllerImpl
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>> {
     try {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
         .withOkMessage({} as BlipHttpResponseTemplateWithoutResource)
         .build();
     } catch (error: any) {
       return new HttpDataResponseBuilder<BlipHttpResponseTemplateWithoutResource>()
+        .create()
         .withInternalErrorMessage([InternalError])
         .build();
     }
