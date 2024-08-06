@@ -22,7 +22,7 @@ export interface BlipEventTrackingDataAccess {
   ): Promise<BlipHttpResponseTemplateWithoutResource>;
   getEventDetails(
     dto: GetEventDetailsRequestDto
-  ): Promise<GetEventDetailsResponse>;
+  ): Promise<BlipHttpResponseTemplate<EventDetailResponse>>;
   getEventCategories(): Promise<
     BlipHttpResponseTemplate<GetEventCategoriesResponse>
   >;
@@ -77,18 +77,16 @@ export class BlipEventTrackingDataAccessImpl
   }
   async getEventDetails(
     dto: GetEventDetailsRequestDto
-  ): Promise<GetEventDetailsResponse> {
+  ): Promise<BlipHttpResponseTemplate<EventDetailResponse>> {
     try {
       const url = `${this._baseUrl}/`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: this._authorizationKey,
       };
-      const response = await this._httpClient.post<GetEventDetailsResponse>(
-        url,
-        dto,
-        headers
-      );
+      const response = await this._httpClient.post<
+        BlipHttpResponseTemplate<EventDetailResponse>
+      >(url, dto, headers);
 
       return response as GetEventDetailsResponse;
     } catch (error: any) {
