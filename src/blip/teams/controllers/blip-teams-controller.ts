@@ -10,7 +10,7 @@ import { InternalError } from "@/shared/errors";
 import { HttpDataResponseBuilder } from "@/shared/http-data-response-builder";
 import { BlipTeamsDataAccess } from "../infrastructure/teams-data-access";
 
-export interface BlipTeamsControllers {
+export interface BlipTeamsController {
   getAllTeams(): Promise<
     HttpDataResponse<
       BlipHttpResponseTemplate<BlipGetAllTeamsResponseResourceDto>
@@ -24,7 +24,7 @@ export interface BlipTeamsControllers {
     >
   >;
 }
-export class BlipTeamsControllersImpl implements BlipTeamsControllers {
+export class BlipTeamsControllerImpl implements BlipTeamsController {
   constructor(private readonly _blipTeamsDataAccess: BlipTeamsDataAccess) {}
   async getReportAboutTeams(
     dto: BlipGetReportAboutTeamsRequestDto

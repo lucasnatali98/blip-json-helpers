@@ -13,6 +13,7 @@ import {
 } from "../infrastructure/data/blip-event-tracking-dto";
 import { HttpDataResponseBuilder } from "@/shared/http-data-response-builder";
 import { InternalError } from "@/shared/errors";
+import { BlipEventTrackingDataAccess } from "../infrastructure/event-tracking-data-acess";
 
 export interface BlipEventTrackingController {
   createEvent(
@@ -42,6 +43,9 @@ export interface BlipEventTrackingController {
 export class BlipEventTrackingControllerImpl
   implements BlipEventTrackingController
 {
+  constructor(
+    private readonly _blipEventTrackingDataAccess: BlipEventTrackingDataAccess
+  ) {}
   async createEvent(
     dto: CreateEventRequestDto
   ): Promise<HttpDataResponse<BlipHttpResponseTemplateWithoutResource>> {

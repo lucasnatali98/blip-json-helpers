@@ -16,7 +16,7 @@ import {
 } from "./data/blip-event-tracking-dto";
 import logger from "@/shared/logger";
 
-export interface EventTrackingDataAccess {
+export interface BlipEventTrackingDataAccess {
   createEvent(
     dto: CreateEventRequestDto
   ): Promise<BlipHttpResponseTemplateWithoutResource>;
@@ -36,7 +36,9 @@ export interface EventTrackingDataAccess {
     uri: string
   ): Promise<BlipHttpResponseTemplateWithoutResource>;
 }
-export class EventTrackingDataAccessImpl implements EventTrackingDataAccess {
+export class BlipEventTrackingDataAccessImpl
+  implements BlipEventTrackingDataAccess
+{
   private readonly _baseUrl;
   private readonly _authorizationKey;
   constructor(private readonly _httpClient: HttpClient) {
