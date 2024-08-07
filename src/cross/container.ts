@@ -8,8 +8,13 @@ import { BlipTeamsControllerImpl } from "@/blip/teams/controllers/blip-teams-con
 import { BlipTeamsDataAccessBuilder } from "@/blip/teams/infrastructure/blip-teams-data-access-builder";
 import { BlipTicketControllerImpl } from "@/blip/ticket/controllers/blip-ticket-controller";
 import { BlipTicketDataAccessBuilder } from "@/blip/ticket/infrastructure/blip-ticket-data-access-builder";
+import { CompanyName } from "@/core/domain/data/value-object/company";
+import {
+  ApplicationContext,
+  applicationContexts,
+} from "@/shared/application-context";
 
-export const createContainerValue = (companyName: string) => {
+export const createContainerValue = (companyName: CompanyName) => {
   const createAuthenticationController = () => {};
   const createBlipAttendantController = () => {
     const blipAttendantDataAccess = new BlipAttendantDataAccessBuilder()
@@ -47,22 +52,32 @@ export const createContainerValue = (companyName: string) => {
 
   return {
     authenticationController: () => {
-      createAuthenticationController();
+      return createAuthenticationController();
     },
     blipAttendantController: () => {
-      createBlipAttendantController();
+      return createBlipAttendantController();
     },
     blipContactController: () => {
-      createBlipContactController();
+      return createBlipContactController();
     },
     blipEventTrackingController: () => {
-      createBlipEventTrackingController();
+      return createBlipEventTrackingController();
     },
     blipTicketController: () => {
-      createBlipTicketController();
+      return createBlipTicketController();
     },
     createBlipTeamsController: () => {
-      createBlipTeamsController();
+      return createBlipTeamsController();
     },
   };
 };
+
+const container = applicationContexts
+  .map((context: ApplicationContext) => {
+    return {
+      [context.company.name]: createContainerValue(context.company.name),
+    };
+  })
+  .reduce((acc, curr) => ({ ...acc, ...curr }));
+
+export default container;
