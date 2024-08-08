@@ -14,7 +14,9 @@ blipTicketRouter.get("/:company/blip/get-ticket", (req, res) => {
     .then((response) => {
       return res.status(response.statusCode).json(response.body);
     })
-    .catch((error) => {});
+    .catch((error) => {
+      res.status(error.status).end(error);
+    });
 });
 
 blipTicketRouter.post("/:company/blip/create-ticket", (req, res) => {
