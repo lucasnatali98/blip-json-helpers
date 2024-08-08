@@ -4,6 +4,7 @@ import {
   BlipGetAllTeamsResponseResourceDto,
   BlipGetReportAboutTeamsRequestDto,
   BlipGetReportAboutTeamsResponseDto,
+  BlipGetTeamMetricsResponseDto,
 } from "../infrastructure/data/blip-teams-dto";
 import logger from "@/shared/logger";
 import { InternalError } from "@/shared/errors";
@@ -23,9 +24,44 @@ export interface BlipTeamsController {
       BlipHttpResponseTemplate<BlipGetReportAboutTeamsResponseDto>
     >
   >;
+  getTeamsMetrics(): Promise<
+    HttpDataResponse<BlipHttpResponseTemplate<BlipGetTeamMetricsResponseDto>>
+  >;
 }
 export class BlipTeamsControllerImpl implements BlipTeamsController {
   constructor(private readonly _blipTeamsDataAccess: BlipTeamsDataAccess) {}
+  async getTeamsMetrics(): Promise<
+    HttpDataResponse<BlipHttpResponseTemplate<BlipGetTeamMetricsResponseDto>>
+  > {
+    try {
+      const response = await this._blipTeamsDataAccess.getTeamsMetrics();
+
+      if (response.status !== "success") {
+        return new HttpDataResponseBuilder<
+          BlipHttpResponseTemplate<BlipGetTeamMetricsResponseDto>
+        >()
+          .create()
+          .withInfoErrorMessage([
+            { message: "Houve um erro durante a extração" },
+          ])
+          .build();
+      }
+      return new HttpDataResponseBuilder<
+        BlipHttpResponseTemplate<BlipGetTeamMetricsResponseDto>
+      >()
+        .create()
+        .withOkMessage(response)
+        .build();
+    } catch (error: any) {
+      logger.error(error.stack);
+      return new HttpDataResponseBuilder<
+        BlipHttpResponseTemplate<BlipGetTeamMetricsResponseDto>
+      >()
+        .create()
+        .withInternalErrorMessage([InternalError])
+        .build();
+    }
+  }
   async getReportAboutTeams(
     dto: BlipGetReportAboutTeamsRequestDto
   ): Promise<

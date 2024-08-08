@@ -66,7 +66,7 @@ export const createContainerValue = (companyName: CompanyName) => {
     blipTicketController: () => {
       return createBlipTicketController();
     },
-    createBlipTeamsController: () => {
+    blipTeamsController: () => {
       return createBlipTeamsController();
     },
   };
