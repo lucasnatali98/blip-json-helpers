@@ -6,6 +6,12 @@ import logger from "@/shared/logger";
 import { InternalError } from "@/shared/errors";
 import { HttpDataResponseBuilder } from "@/shared/http-data-response-builder";
 import { BlipTicketDataAccess } from "../infrastructure/blip-ticket-data-access";
+import {
+  BlipCreateTicketRequestDto,
+  BlipGetAllTicketsRequestDto,
+  BlipGetReportAboutTicketsRequestDto,
+  BlipGetTicketRequestDto,
+} from "../infrastructure/data/blip-ticket-dto";
 
 export interface BlipTicketController {
   get(

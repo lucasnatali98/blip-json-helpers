@@ -1,73 +1,73 @@
-type BlipGetTicketRequestDto = {
+export type BlipGetTicketRequestDto = {
   ticketId: string;
 };
 
-type BlipGetAllTicketsRequestDto = {
+export type BlipGetAllTicketsRequestDto = {
   $filter: string;
   skip: number;
   take: number;
 };
 
-type BlipCreateTicketRequestDto = {
+export type BlipCreateTicketRequestDto = {
   customerIdentity: string;
 };
 
-type BlipGetReportAboutTicketsRequestDto = {
+export type BlipGetReportAboutTicketsRequestDto = {
   beginDate: string;
   endDate: string;
 };
 
-type BlipGetAllClosedTicketsRequestDto = {
+export type BlipGetAllClosedTicketsRequestDto = {
   $filter: string;
   $skip: number;
   $take: number;
   $closed: boolean;
 };
 
-type BlipGetWaitingTicketsRequestDto = {
+export type BlipGetWaitingTicketsRequestDto = {
   $filter: string;
   $skip: number;
   $take: number;
 };
 
-type BlipGetAllMessagesFromCustomerByTicketRequestDto = {
+export type BlipGetAllMessagesFromCustomerByTicketRequestDto = {
   $take: number;
   $skip: number;
   $ascending: boolean;
   getFromOwnerIfTunnel: boolean;
 };
 
-type BlipCloseTicketAsUserRequestDto = {
+export type BlipCloseTicketAsUserRequestDto = {
   id: string;
   status: string;
 };
 
-type BlipCreateNewTicketForAnAttendanceRequestDto = {
+export type BlipCreateNewTicketForAnAttendanceRequestDto = {
   customerIdentity: string;
 };
 
-type BlipAddTicketsTagsRequestDto = {
+export type BlipAddTicketsTagsRequestDto = {
   id: string;
   tags: string[];
 };
 
-type BlipCloseTicketAsAttendantRequestDto = {
+export type BlipCloseTicketAsAttendantRequestDto = {
   id: string;
   status: string;
 };
 
-type BlipAssignTicketToAnAgentRequestDto = {
+export type BlipAssignTicketToAnAgentRequestDto = {
   id: string;
   status: string;
   agentIdentity: string;
 };
 
-type BlipGetReportAboutTicketTimingRequestDto = {
+export type BlipGetReportAboutTicketTimingRequestDto = {
   beginDate: string;
   endDate: string;
 };
 
-type BlipTransferTicketToAnotherTeamRequestDto = {
+export type BlipTransferTicketToAnotherTeamRequestDto = {
   ticketId: string;
   teamName: string;
 };
