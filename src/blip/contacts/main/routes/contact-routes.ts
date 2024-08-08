@@ -8,18 +8,31 @@ import { Router, Request, Response } from "express";
 const blipContactRouter = Router();
 
 blipContactRouter.get(
-  "/:company/get-contact",
+  "/:company/blip/get-contact",
   (req: Request, res: Response) => {
     const companyName = companyNameFromString(req.query.company as string);
-    container[companyName].blipContactController().getContact(req, res);
+    container[companyName].blipContactController().get(req.params.id);
   }
 );
 
-blipContactRouter.post("/add-contact", (req: Request, res: Response) => {
-  res.end("Contact added");
-});
+blipContactRouter.post(
+  "/:company/blip/add-contact",
+  (req: Request, res: Response) => {
+    const companyName = companyNameFromString(req.query.company as string);
+  }
+);
 
-blipContactRouter.patch("/update-contact", (req: Request, res: Response) => {});
-blipContactRouter.get("/get-contacts", (req: Request, res: Response) => {});
+blipContactRouter.patch(
+  "/:company/blip/update-contact",
+  (req: Request, res: Response) => {
+    const companyName = companyNameFromString(req.query.company as string);
+  }
+);
+blipContactRouter.get(
+  "/:company/blip/get-contacts",
+  (req: Request, res: Response) => {
+    const companyName = companyNameFromString(req.query.company as string);
+  }
+);
 
 export default blipContactRouter;
